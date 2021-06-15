@@ -96,3 +96,17 @@ def like_post(request, pk):
         Like.objects.create(post=post, author=request.user, choice='like')
 
     return redirect('post_detail', pk=pk)
+
+def not_like_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    try:
+        feedback = Like.objects.get(post=post, author=request.user)
+        if feedback.choice == 'like':
+            feedback.choice = 'notlike'
+            feedback.save()
+        else:
+            feedback.delete()
+    except ObjectDoesNotExist:
+        Like.objects.create(post=post, author=request.user, choice='notlike')
+
+    return redirect('post_detail', pk=pk)
