@@ -23,10 +23,10 @@
         <a class="btn btn-default" href="{% url 'not_like_post' pk=post.pk %}"><span class="glyphicon glyphicon-thumbs-down"></span></a>
         <p>Percentual de aprovação do post:</p>
         <div class="progress">
-            <div class="progress-bar" data-toggle="tooltip" title="Curtiram o Post" style="width:70%">70% Likes</div>
+            <div class="progress-bar" data-toggle="tooltip" title="Curtiram o Post" style="width:{{ likes|floatformat:0 }}%">{{ likes|floatformat:0 }}% Likes</div>
         </div>
         <div class="progress">
-            <div class="progress-bar" data-toggle="tooltip" title="Não Curtiram o Post" style="width:30%">30% Deslikes</div>
+            <div class="progress-bar" data-toggle="tooltip" title="Não Curtiram o Post" style="width:{{ notlikes|floatformat:0 }}%">{{ notlikes|floatformat:0 }}% Deslikes</div>
         </div>
         
         

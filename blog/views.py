@@ -11,7 +11,23 @@ def post_list(request):
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    return render(request, 'blog/post_detail.html', {'post': post})
+
+    if (Like.objects.filter(post=post).count() > 0):
+        qtd_like = Like.objects.filter(post=post, choice='like').count()
+        qtd_notlike = Like.objects.filter(post=post, choice='notlike').count()
+        percentage_likes = (qtd_like/(qtd_like + qtd_notlike))*100
+        percentage_notlikes = (qtd_notlike/(qtd_like + qtd_notlike))*100
+    else:
+        percentage_likes = 0
+        percentage_notlikes = 0
+
+    contexto = {
+        'post': post,
+        'likes': percentage_likes,
+        'notlikes': percentage_notlikes,
+    }
+
+    return render(request, 'blog/post_detail.html', contexto)
 
 @login_required
 def post_new(request):
@@ -110,3 +126,15 @@ def not_like_post(request, pk):
         Like.objects.create(post=post, author=request.user, choice='notlike')
 
     return redirect('post_detail', pk=pk)
+
+'''
+def percentage_of_likes(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+
+    contexto = {
+        'post': post,
+        'likes': Like.objects.filter(post=post, choice='like'),
+    }
+    
+    return render('post_detail', contexto)
+'''
