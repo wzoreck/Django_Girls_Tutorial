@@ -126,15 +126,3 @@ def not_like_post(request, pk):
         Like.objects.create(post=post, author=request.user, choice='notlike')
 
     return redirect('post_detail', pk=pk)
-
-'''
-def percentage_of_likes(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-
-    contexto = {
-        'post': post,
-        'likes': Like.objects.filter(post=post, choice='like'),
-    }
-    
-    return render('post_detail', contexto)
-'''
