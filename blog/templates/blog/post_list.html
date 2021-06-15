@@ -8,6 +8,7 @@
             </div>
             <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
             <p>{{ post.text|linebreaksbr|slice:"0:1000" }}...</p>
+            <a href="{% url 'post_detail' pk=post.pk %}">Comentários: {{ post.comments.count }}</a>
         </div>
     {% endfor %}
 {% endblock %}
