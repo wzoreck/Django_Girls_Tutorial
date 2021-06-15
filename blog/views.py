@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from .models import Post, Comment
+from .models import Like, Post, Comment
 from .forms import PostForm, CommentForm
+from django.core.exceptions import ObjectDoesNotExist
 
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date') 
@@ -81,3 +82,17 @@ def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     comment.delete()
     return redirect('post_detail', pk=comment.post.pk)
+
+def like_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    try:
+        feedback = Like.objects.get(post=post, author=request.user)
+        if feedback.choice == 'notlike':
+            feedback.choice = 'like'
+            feedback.save()
+        else:
+            feedback.delete()
+    except ObjectDoesNotExist:
+        Like.objects.create(post=post, author=request.user, choice='like')
+
+    return redirect('post_detail', pk=pk)

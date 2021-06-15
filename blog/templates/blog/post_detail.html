@@ -18,6 +18,19 @@
         <p>{{ post.text|linebreaksbr }}</p>
 
         <hr>
+        <h3>Curtir</h3>
+        <a class="btn btn-default" href="{% url 'like_post' pk=post.pk %}"><span class="glyphicon glyphicon-thumbs-up"></span></a>
+        <a class="btn btn-default" href="#"><span class="glyphicon glyphicon-thumbs-down"></span></a>
+        <p>Percentual de aprovação do post:</p>
+        <div class="progress">
+            <div class="progress-bar" data-toggle="tooltip" title="Curtiram o Post" style="width:70%">70% Likes</div>
+        </div>
+        <div class="progress">
+            <div class="progress-bar" data-toggle="tooltip" title="Não Curtiram o Post" style="width:30%">30% Deslikes</div>
+        </div>
+        
+        
+        <hr>
         <h3>Comentários</h3>
         <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Adicionar Comentário</a>
         {% for comment in post.comments.all %}
